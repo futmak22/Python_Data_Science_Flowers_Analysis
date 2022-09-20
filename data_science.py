@@ -14,3 +14,9 @@ import os
 # 1) - Extracción del path de la data de flores.
 irisfile_path = os.getcwd() + '/data_sets/iris_data.csv'
 
+#-------------------------------------------------------------------------
+# 2) - Carga del archivo .csv con la data de flores (DataFrame de Pandas)
+#-------------------------------------------------------------------------
+iris_original = pd.read_csv(irisfile_path)
+#print(type(iris_original))
+
