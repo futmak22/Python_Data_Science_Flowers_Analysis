@@ -37,3 +37,16 @@ print('#----------------------------------------------------')
 print('#------Algunos datos del DataFrame----------------------')
 print('#----------------------------------------------------')
 print(iris_original.head())
+
+
+#----------------------------------------------------
+# 5) - Visualización relación entre variables
+#----------------------------------------------------
+print('\n')
+print('#----------------------------------------------------')
+print('#------Visualización relación entre variables--------')
+print('#----------------------------------------------------')
+visualizar = input("Desea visualizar la relación entre variables? (S/N) ")
+if visualizar == 'S' or visualizar == 's':
+    sns.pairplot(iris_original, hue='label')
+    plt.show()
