@@ -20,3 +20,14 @@ irisfile_path = os.getcwd() + '/data_sets/iris_data.csv'
 iris_original = pd.read_csv(irisfile_path)
 #print(type(iris_original))
 
+#----------------------------------------------------
+# 3) - Naturaleza del DataFrame
+#----------------------------------------------------
+print('\n')
+print('#----------------------------------------------------')
+print('#------Naturaleza del DataFrame----------------------')
+print('#----------------------------------------------------')
+print(iris_original.info())
+
+
+
