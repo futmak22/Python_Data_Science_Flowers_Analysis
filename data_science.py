@@ -276,3 +276,41 @@ if reg_log == 'S' or reg_log == 's':
     graficar_regresion(y, especie, variable)
 
 
+#--------------------------------------------------------------------------------------------------------
+#-- 14) - Evaluación de la predicción de la regresión logistica:
+#--------------------------------------------------------------------------------------------------------
+print('\n')
+print('#-----------------------------------------------------------------------------------')
+print('#-Evaluación de la predicción de la regresión logistica:')
+print('#-----------------------------------------------------------------------------------')
+def iris_evaluar_logit(especie, variable):
+  
+  iris_df['modelo logit'] = iris_calcular_logit(especie, variable)
+  iris_df['predicción']   = np.round(iris_df['modelo logit'], decimals=0)
+  iris_df['acierto']      = np.where( iris_df[ "es_" + especie ] == iris_df[ 'predicción' ] , True, False)
+   
+  return iris_df
+
+wrk_especie  = 'versicolor'
+wrk_variable = 'longitud_pétalo'
+
+print("Vista de los 1ros. 10 elementos resultado de la predicción:")
+print(iris_evaluar_logit(wrk_especie, wrk_variable)[
+      ['es_virginica', 'es_versicolor', 'predicción', 'acierto']
+    ].head(10)
+)
+print('#-----------------------------------------------------------------------------------')
+
+#--------------------------------------------------------------------------------------------------------
+#-- 15) - Evaluación de la precisión:
+#--------------------------------------------------------------------------------------------------------
+print('\n')
+print('#-----------------------------------------------------------------------------------')
+print('#-Evaluación de la precisión:')
+print('#-----------------------------------------------------------------------------------')
+wrk_especie  = 'versicolor'
+wrk_variable = 'longitud_pétalo'
+iris_df_prediccion = iris_evaluar_logit(wrk_especie, wrk_variable)
+accuracy = iris_df['acierto'].mean() # En la suma los valores booleanos True y False se interpretan como 1 y 0.
+print("La regresión logística tuvo una presición de: {}".format(accuracy))
+print('\n')
