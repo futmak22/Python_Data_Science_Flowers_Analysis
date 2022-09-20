@@ -61,3 +61,47 @@ print('#-Calculo de media y desviación estándar de las variables-')
 print('#---------------------------------------------------------')
 print(iris_original.groupby('label').agg([np.mean, np.std]).T)
 
+
+#---------------------------------------------------------------
+# 7) - Creación de un nuevo DataFrame
+#--------------------------------------------------------------
+print('\n')
+print('#-----------------------------------------------------------------------------------')
+print('#-Creación de un nuevo DataFrame:')
+print('#-1)-Solo la información de especies versicolor y virginica')
+print('#-2)-Se incluye una característica adicional "es_virginica: 1=virginica/0=versicolor')
+print('#-----------------------------------------------------------------------------------')
+iris_df = iris_original.copy() #Realiza la copia del Dataframe inicial
+print("Columnas del dataframe original: {}".format(iris_df.columns))
+
+#definición de un diccionario con el label origen vs label destino
+dicc= { 'sepal length (cm)': 'longitud_sépalo' ,
+        'sepal width (cm)' : 'ancho_sépalo'    ,
+        'petal length (cm)': 'longitud_pétalo' ,
+        'petal width (cm)' : 'ancho_pétalo'    ,
+        'label'            : 'especie'
+}
+
+#Renombramiento de columnas
+iris_df = iris_df.rename(columns=dicc)
+
+#Dataframe sin la data de 'setosa'
+iris_df = iris_df[iris_df['especie'] != 'setosa']
+
+#Se agregan las 2 columnas con las caracteristicas 'es_versicolor' y 'es_virginica'
+iris_df['es_versicolor'] = np.where( iris_df['especie'] == 'versicolor' , 1, 0)
+iris_df['es_virginica'] = np.where( iris_df['especie'] == 'virginica' , 1, 0)
+
+print('\nDataFrame Final:')
+print(iris_df)
+
+
+#---------------------------------------------------------------
+# 8) - Listado de columnas
+#--------------------------------------------------------------
+print('\n')
+print('#-----------------------------------------------------------------------------------')
+print('#-Listado de columnas')
+print('#-----------------------------------------------------------------------------------')
+print(set(iris_df.columns))
+
