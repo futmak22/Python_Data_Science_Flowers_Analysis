@@ -254,3 +254,25 @@ print("En este caso los resultados variarán en el rango [0, 1]:")
 print("- El rango [0, 5) representará la una especie.")
 print("- El rango [5, 1] representará la otra especie.")
 print("Resultado de la clasificación por regresión logistica de los 1eros. 8 datos: {}".format(np.round(y[:8], 4)))
+
+
+#--------------------------------------------------------------------------------------------------------
+#-- 13) - Grafica de la regresión logística, generada anteriormente:
+#--------------------------------------------------------------------------------------------------------
+print('\n')
+print('#-----------------------------------------------------------------------------------')
+print('#-Grafica de la REGRESION LOGISTICA:')
+print('#-----------------------------------------------------------------------------------')
+def graficar_regresion(y, especie, variable):
+  ax = iris_df.plot.scatter(variable, f'es_{especie}', label = f"Especie real: {especie}", figsize = (6,4.5)); # Gráfica de dispersión con la variable objetivo.
+  ax.get_figure().set_dpi(105)  
+  ax.scatter(iris_df[variable], y, color = 'red', lw = 1, label = "Regresión logística"); # Gráfica de líneas con los puntos calculados con la regresión.
+  ax.legend()
+  plt.show()
+
+# Graficar los resultados de la regresión logística (OPCIONAL)
+reg_log = input("Desea graficar la regresión logística? (S/N): ")
+if reg_log == 'S' or reg_log == 's':
+    graficar_regresion(y, especie, variable)
+
+
