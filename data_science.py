@@ -128,3 +128,35 @@ def iris_corr_regr(var_ind, var_dep, especie):
 
 
 print("crecimiento, valor_inicial, correlación, p_valor: {}".format(iris_corr_regr('longitud_sépalo', 'ancho_sépalo', 'virginica')))
+
+
+#---------------------------------------------------------------
+# 10) - Grafica relación lineal
+#--------------------------------------------------------------
+print('\n')
+print('#-----------------------------------------------------------------------------------')
+print('#-Grafica relación lineal:')
+print('#-----------------------------------------------------------------------------------')
+
+# Defina los valores de entrada y ejecute la visualización (OPCIONAL)
+var_ind = 'longitud_pétalo'
+var_dep = 'longitud_sépalo'
+especie = 'virginica'
+print("Variables seleccionadas:")
+print("Variable Independiente: " + var_ind)
+print("Variable Dependiente: " + var_dep)
+print("Especie: " + especie)
+
+# Reutilizando la función iris_corr_regr().
+m, b, r, p = iris_corr_regr(var_ind, var_dep, especie) 
+mod_lin =  m * iris_df[var_ind] + b
+
+# Gráfica de dispersión
+graficar_relacion = input("Desea graficar la relación entre las variables?: (S/N) ")
+
+if graficar_relacion == 'S' or graficar_relacion == 's':
+    ax = iris_df.plot.scatter(var_ind, var_dep, figsize = (6,5)) 
+    ax.get_figure().set_dpi(105);
+    ax.plot(iris_df[var_ind], mod_lin, c='r', label='Regresión lineal'); 
+    ax.legend();
+    plt.show()
