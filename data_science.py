@@ -213,3 +213,44 @@ print("Variable a evaluar: {}, nivel de confianza: {}, especie: {}".format( var 
 var = 'ancho_sépalo'
 confianza = 0.999
 print("Variable a evaluar: {}, nivel de confianza: {}, especie: {}".format( var , confianza , iris_hipótesis_especies(var, confianza)))
+
+
+#--------------------------------------------------------------------------------------------------------
+#-- 12) - Es posible distinguir entre las flores virginica y versicolor usando una regresion Logistica:
+#--------------------------------------------------------------------------------------------------------
+print('\n')
+print('#-----------------------------------------------------------------------------------')
+print('#-Distinción entre Virgínica y Versicolor usando una REGRESION LOGISTICA:')
+print('#-----------------------------------------------------------------------------------')
+def iris_calcular_logit(especie, variable):
+    
+    # Creación de la formula del modelo:
+    es_especie  = "es_" + especie
+    myFormula = es_especie + " ~ " + variable
+    
+    # Creación del modelo:
+    model  = sm.GLM.from_formula( myFormula , family = sm.families.Binomial(), data = iris_df)
+
+    #Ejecución del entrenamiento del modelo
+    result = model.fit()
+    
+    #Datos de Testing(Datos que serán clasificados durante el tiempo de ejecución)
+    X = iris_df[ variable ] # longitud_sépalo, ancho_sépalo, longitud_pétalo ó ancho_pétalo
+
+    #Ejecución de la clasificación de datos, sabiendo que el modelo ya fue entrenado.
+    Valores_de_y_predic = result.predict(X)
+    y = Valores_de_y_predic
+        
+    return y.values
+
+
+# Diferentes pruebas modificando la selección de 'especie' y 'variable' a continuación:
+especie = 'versicolor'
+variable = 'longitud_pétalo'
+
+y = iris_calcular_logit(especie, variable) # Resultado de ejecutar la regresión logística.
+
+print("En este caso los resultados variarán en el rango [0, 1]:")
+print("- El rango [0, 5) representará la una especie.")
+print("- El rango [5, 1] representará la otra especie.")
+print("Resultado de la clasificación por regresión logistica de los 1eros. 8 datos: {}".format(np.round(y[:8], 4)))
