@@ -160,3 +160,56 @@ if graficar_relacion == 'S' or graficar_relacion == 's':
     ax.plot(iris_df[var_ind], mod_lin, c='r', label='Regresión lineal'); 
     ax.legend();
     plt.show()
+
+
+#---------------------------------------------------------------------------
+#-- 11) - Prueba de Hipotesis - Nivel de confianza de la hipotesis
+#---------------------------------------------------------------------------
+print('\n')
+print('#-----------------------------------------------------------------------------------')
+print('#-Prueba de Hipotesis - Nivel de confianza de la hipotesis:')
+print('#-----------------------------------------------------------------------------------')
+def iris_hipótesis_especies(variable, confianza):
+
+    # Extracción de la caracteristica recibida por parametro para cada especie
+    # Extracción para 'virginica'
+    subDataFrame1 = iris_df[iris_df['especie'] == 'virginica']
+    data1 = subDataFrame1[ variable ]
+    
+    # Extracción para 'versicolor'
+    subDataFrame1 = iris_df[iris_df['especie'] == 'versicolor']
+    data2 = subDataFrame1[ variable ]
+    
+    # Ejecución de la prueba de hipotesis (Objetivo: obtener p_valor que hace referencia al área bajo la curva de H1 que es la hipotesis de rechazo)
+    # estadistico, p_valor = stats.ttest_rel( data1 , data2 )
+    estadistico, p_valor = ztest( data1 , data2 )
+
+    # El parametro de entrada 'confianza' es para afirmar que se presenta la Ho:(Hipotesis nula)
+    # Debido a lo anterior es necesario hallar el valor restante que afirma que se debe negar Ho y afirmar H1.
+    rechazo_hipotesis = 1 - confianza   # para 0.95% = 0.5, para 0.999% = 0.1 (Corresponde al porcentaje de rechazo)
+
+    # Ho es la hipotesis nula
+    # Ho: Los promedios de las 2 especies NO difieren significativamente. Entonces promedio1 = promedio2
+    # H1: Los promedios de las 2 especies SI difieren significativamente. Entonces promedio1 < promedio2 ó promedio1 > promedio2 (La razon de dividir el Pvalor en 2)
+
+    if p_valor > rechazo_hipotesis: # Si p_valor es mayor que el porcentaje de rechazo(rechazo_hipotesis) se pasa al lado de la aceptacion de Ho.
+        resultado = 'ninguna'
+    else: 
+        #Si p_valor es menor o igual que el porcentaje de rechazo(rechazo_hipotesis) se queda en el lado del rechazo de Ho, es decir en H1.
+        #H1: que los promedios de las 2 especies difieren significativamente
+        promedio1 = data1.mean() #Calculo del promedio para 'virginica'
+        promedio2 = data2.mean() #Calculo del promedio para 'versicolor'
+        if promedio1 > promedio2:
+            resultado = 'virginica'
+        else:
+            resultado = 'versicolor'
+
+    return resultado
+
+var = 'ancho_sépalo'
+confianza = 0.95
+print("Variable a evaluar: {}, nivel de confianza: {}, especie: {}".format( var , confianza , iris_hipótesis_especies(var, confianza)))
+
+var = 'ancho_sépalo'
+confianza = 0.999
+print("Variable a evaluar: {}, nivel de confianza: {}, especie: {}".format( var , confianza , iris_hipótesis_especies(var, confianza)))
