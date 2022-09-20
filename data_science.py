@@ -105,3 +105,26 @@ print('#-Listado de columnas')
 print('#-----------------------------------------------------------------------------------')
 print(set(iris_df.columns))
 
+
+#---------------------------------------------------------------
+# 9) - Relación lineal entre las medidas
+#--------------------------------------------------------------
+print('\n')
+print('#-----------------------------------------------------------------------------------')
+print('#-Relación lineal entre las medidas de las flores')
+print('#-----------------------------------------------------------------------------------')
+
+
+def iris_corr_regr(var_ind, var_dep, especie):
+
+    #Extracción de la especie requerida según los parametros de entrada.
+    subDataFrame = iris_df[iris_df['especie'] == especie]
+    data1 = subDataFrame[ var_ind ]    
+    data2 = subDataFrame[ var_dep ]
+
+    crecimiento, valor_inicial, correlación, p_valor, _ = stats.linregress(data1,data2)
+    
+    return crecimiento, valor_inicial, correlación, p_valor
+
+
+print("crecimiento, valor_inicial, correlación, p_valor: {}".format(iris_corr_regr('longitud_sépalo', 'ancho_sépalo', 'virginica')))
