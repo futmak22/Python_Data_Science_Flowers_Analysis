@@ -50,3 +50,14 @@ visualizar = input("Desea visualizar la relación entre variables? (S/N) ")
 if visualizar == 'S' or visualizar == 's':
     sns.pairplot(iris_original, hue='label')
     plt.show()
+
+
+#---------------------------------------------------------------
+# 6) - Calculo de media y desviación estándar de las variables
+#--------------------------------------------------------------
+print('\n')
+print('#---------------------------------------------------------')
+print('#-Calculo de media y desviación estándar de las variables-')
+print('#---------------------------------------------------------')
+print(iris_original.groupby('label').agg([np.mean, np.std]).T)
+
